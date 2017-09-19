@@ -15,10 +15,13 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+[Ii]nclude/
+[Ll]ib/
+[Ss]cripts/
 lib64/
 parts/
 sdist/
+tcl/
 var/
 wheels/
 *.egg-info/
@@ -86,6 +89,7 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+pip-selfcheck.json
 
 # Spyder project settings
 .spyderproject
