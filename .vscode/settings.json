@@ -1,0 +1,12 @@
+{
+    "files.insertFinalNewline": true,
+    "python.linting.pep8Enabled": true,
+
+    "python.autoComplete.extraPaths": [
+        "C:/Users/dly58/Repos/Ark/ark/manifest"
+    ],
+    "python.autoComplete.preloadModules": [
+        "C:/Users/dly58/Repos/Ark/Lib/site-packages",
+        "C:/Program Files/Python36/Lib/site-packages"
+    ]
+}
