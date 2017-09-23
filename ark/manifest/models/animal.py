@@ -1,14 +1,15 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 
+
 class Animal(models.Model):
     ANIMAL_CHOICES = (('Cat', 'Cat'), ('Dog', 'Dog'))
     name = models.CharField(max_length=20, default='Jane')
     animal = models.CharField(
-        max_length=3, choices=ANIMAL_CHOICES, default='DOG')
-    birth_date = models.DateField(auto_now=False)
+        max_length=3, choices=ANIMAL_CHOICES, default='Cat')
+    birth_date = models.DateField(auto_now=True)
     is_female = models.BooleanField(default=True)
-    joined = models.DateField(auto_now=False)
+    joined = models.DateField(auto_now=True)
     personal_history = models.CharField(max_length=50, default='Stray')
     preferences_cats = models.CharField(
         max_length=40, default='It\'s a possibility!')
@@ -17,9 +18,9 @@ class Animal(models.Model):
     preferences_kids = models.CharField(
         max_length=40, default='It\'s a possibility!')
     declawed = models.BooleanField(default=False)
-    spay_neuter = models.BooleanField(default=False)
+    spay_neuter = models.BooleanField(default=True)
     health = models.CharField(max_length=40, default='Good')
-    pet_id = models.IntegerField(validators=[MinValueValidator(0)])
+    pet_id = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __repr__(self):
         return f'Id: {self.pet_id} Name: {self.name} Animal: {self.animal}'
