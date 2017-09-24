@@ -22,10 +22,6 @@ class AnimalTests(TestCase):
 
         self.default_cat = Animal.objects.create()
 
-    def test_cat_model(self):
-        cat = Animal.objects.get(pet_id=4356)
-        self.assertEqual(cat, self.test_cat)
-
     def test_default_cat_model_values(self):
         cat = Animal.objects.get(pet_id=0)
         self.assertEqual(cat.name, 'Jane')
@@ -38,3 +34,5 @@ class AnimalTests(TestCase):
         self.assertEqual(cat.declawed, False)
         self.assertEqual(cat.spay_neuter, True)
         self.assertEqual(cat.health, 'Good')
+
+    
