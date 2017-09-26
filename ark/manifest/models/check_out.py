@@ -1,12 +1,13 @@
 from django.db import models
 from .animal import Animal
 from .room import Room
+from .animal_to_room import AnimalToRoom
 
 
 class CheckOut(models.Model):
     animal_id = models.ForeignKey(Animal)
-    room_id = models.ForeignKey(Room)
+    room_id = models.ForeignKey(AnimalToRoom)
     checked_out = models.BooleanField(default=False)
     time_out = models.DateTimeField(auto_now=False)
-    time_in = models.DateTimeField(auto_now=False)
-    note = models.TextField(max_length=300)
+    time_in = models.DateTimeField(auto_now=False, null=True)
+    note = models.TextField(max_length=300, null=True)
