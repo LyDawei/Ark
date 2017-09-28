@@ -9,7 +9,7 @@ class Animal(models.Model):
     name = models.CharField(max_length=20, default='Jane')
     animal = models.CharField(
         max_length=3, choices=ANIMAL_CHOICES, default='Cat')
-    birth_date = models.DateField(auto_now=False)
+    birth_date = models.DateField(auto_now=False, blank=True, null=True)
     is_female = models.BooleanField('Gender',
                                     default=True, choices=GENDER_CHOICES)
     joined = models.DateField(auto_now=False)

@@ -35,8 +35,8 @@ class CheckOutTests(TestCase):
         self.adult_room = Room.objects.create(name='Adult Cat Room')
         # Set animal to the room
         self.animal_to_room = AnimalToRoom.objects.create(
-            animal_id=Animal.objects.get(pk=self.test_cat.pk),
-            room_id=Room.objects.get(pk=self.adult_room.pk))
+            animal=Animal.objects.get(pk=self.test_cat.pk),
+            room=Room.objects.get(pk=self.adult_room.pk))
 
         # Checkout animal
         self.checked_out_animal = CheckOut.objects.create(

@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^api/v1/checked-out-animals$',
         views.get_checked_out_animals,
         name='get_checked_out_animals'),
+    url(r'^api/v1/checked-out-animals/(?P<room>[0-9]+)$',
+        views.get_animals_in_room,
+        name='get_animals_in_room'),
 ]
