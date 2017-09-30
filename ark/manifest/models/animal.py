@@ -26,7 +26,13 @@ class Animal(models.Model):
     pet_id = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __repr__(self):
-        return f'Id: {self.pet_id} Name: {self.name} Animal: {self.animal}'
+        return f'''
+            Id: {self.pet_id}
+            Name: {self.name}
+        '''
 
     def __str__(self):
-        return f'{self.animal}: {self.name}'
+        return f'''
+            Id: {self.pet_id}
+            Name: {self.name}
+        '''

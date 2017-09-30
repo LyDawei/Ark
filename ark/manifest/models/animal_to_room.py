@@ -3,6 +3,7 @@ from .animal import Animal
 from .room import Room
 import pdb
 
+
 class AnimalToRoom(models.Model):
     animal = models.ForeignKey(Animal)
     room = models.ForeignKey(Room)

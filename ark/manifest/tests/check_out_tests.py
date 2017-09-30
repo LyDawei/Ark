@@ -31,6 +31,21 @@ class CheckOutTests(TestCase):
             pet_id=4356,
         )
 
+        self.cat_georgie = Animal.objects.create(
+            name='Georgie',
+            birth_date=datetime.date(2010, 3, 26),
+            is_female=True,
+            joined=datetime.date(2015, 3, 26),
+            personal_history='Pulled from high kill shelter',
+            preferences_cats='No, thank you',
+            preferences_dogs='No Experience',
+            preferences_kids='No Experience',
+            declawed=False,
+            spay_neuter=True,
+            health='Good, FIV+',
+            pet_id=3913,
+        )
+
         # Define Room
         self.adult_room = Room.objects.create(name='Adult Cat Room')
         # Set animal to the room
@@ -47,6 +62,10 @@ class CheckOutTests(TestCase):
             time_in=None,
             note='Checked out for sleep over.'
         )
+        self.valid_payload = {
+            'id': Animal.objects.get(name='Georgie').pk,
+            'note': 'Checked out for sleep over.'
+        }
 
     def test_get_checked_out_animals(self):
         response = self.client.get(reverse('get_checked_out_animals'))
@@ -54,3 +73,13 @@ class CheckOutTests(TestCase):
         serializer = CheckoutSerializer(checked_out_animals, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
+
+    # def test_check_out_animal(self):
+    #     response = self.client.post(
+    #         reverse('post_check_out_animal'),
+    #         data=json.dumps(self.valid_payload),
+    #         content_type='application/json')
+    #     animal = Animal.objects.get(name='Georgie')
+    #     checked_out_animal = CheckOut.objects.get(animal_id=animal.pk)
+    #     self.assertEqual(checked_out_animal, animal)
+    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
