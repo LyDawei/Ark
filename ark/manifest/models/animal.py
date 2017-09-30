@@ -23,7 +23,7 @@ class Animal(models.Model):
     declawed = models.BooleanField(default=False, choices=YES_NO_CHOICES)
     spay_neuter = models.BooleanField(default=True, choices=YES_NO_CHOICES)
     health = models.CharField(max_length=40, default='Good')
-    pet_id = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    pet_id = models.CharField(default="9999", max_length=4)
 
     def __repr__(self):
         return f'''

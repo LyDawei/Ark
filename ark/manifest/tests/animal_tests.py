@@ -26,7 +26,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id=4356,
+            pet_id='4356',
         )
 
         Animal.objects.create(
@@ -41,7 +41,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id=4356,
+            pet_id='4356',
         )
 
         Animal.objects.create(
@@ -56,7 +56,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id=4357,
+            pet_id='4357',
         )
 
         Animal.objects.create(
@@ -71,7 +71,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id=4357,
+            pet_id='4357',
         )
 
         Room.objects.create(

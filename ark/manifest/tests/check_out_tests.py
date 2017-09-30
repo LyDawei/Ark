@@ -28,7 +28,7 @@ class CheckOutTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id=4356,
+            pet_id='4356',
         )
 
         self.cat_georgie = Animal.objects.create(
@@ -43,7 +43,7 @@ class CheckOutTests(TestCase):
             declawed=False,
             spay_neuter=True,
             health='Good, FIV+',
-            pet_id=3913,
+            pet_id='3913',
         )
 
         # Define Room
