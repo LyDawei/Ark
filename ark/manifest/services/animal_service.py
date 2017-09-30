@@ -4,14 +4,20 @@ from ..models import Room
 
 
 def get_all_animals():
+    '''Get all animals from the db
+    '''
     return Animal.objects.all()
 
 
 def get_animal(pet_id):
+    '''Get an animal
+    '''
     return Animal.objects.get(pet_id=pet_id)
 
 
 def get_animals_from_room(room_id):
+    '''Get all animals from a room
+    '''
     animals = Animal.objects.filter(animaltoroom__room_id=room_id)
     return animals
 
@@ -20,7 +26,7 @@ def create_animal(name, birth_date, is_female, joined,
                   personal_history, preferences_cats,
                   preferences_dogs, preferences_kids,
                   declawed, spay_neuter, health, pet_id):
-    """ Creates an animal in the database. """
+    ''' Creates an animal in the database. '''
     Animal.objects.create(
         name=name,
         birth_date=birth_date,
@@ -38,6 +44,8 @@ def create_animal(name, birth_date, is_female, joined,
 
 
 def assign_animal_to_room(pet_id, room_name):
+    '''Assign an animal to a room
+    '''
     room = Room.objects.get(name=room_name)
     animal = Animal.objects.get(pet_id=pet_id)
     AnimalToRoom.objects.create(
@@ -48,6 +56,8 @@ def assign_animal_to_room(pet_id, room_name):
 
 
 def get_animal_from_room(pet_id, room_id=None, room_name=None):
+    '''Retrieve an animal from the room
+    '''
     animal = Animal.objects.get(pet_id=pet_id)
     if room_id is not None:
         animal = Animal.objects.filter(animaltoroom__room=room_id).filter(
