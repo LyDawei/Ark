@@ -2,9 +2,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from ..services import AnimalService
-from ..models import Animal
-from ..models import AnimalToRoom
-from ..models import Room
 from ..serializers import AnimalSerializer
 import pdb
 
@@ -23,18 +20,13 @@ def get_animal(req, pk):
 
 @api_view(['GET'])
 def get_animals(req):
-    animals = Animal.objects.all()
+    animals = AnimalService.get_all_animals()
     serializer = AnimalSerializer(animals, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def get_animals_in_room(req, room):
-    animals = Animal.objects.filter(animaltoroom__room=room)
+    animals = AnimalService.get_animals_from_room(room)
     serializer = AnimalSerializer(animals, many=True)
     return Response(serializer.data)
-    '''
-    select * from animal 
-    inner join animal_to_room on animal_id == animal.id
-    inner join room on room.id == animal_to_room.room_id
-    '''
