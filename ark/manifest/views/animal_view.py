@@ -1,19 +1,22 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from ..services import AnimalService
 from ..models import Animal
 from ..models import AnimalToRoom
 from ..models import Room
 from ..serializers import AnimalSerializer
+import pdb
 
 
 @api_view(['GET'])
 def get_animal(req, pk):
     try:
-        animal = Animal.objects.get(pk=pk)
+        animal = AnimalService.get_animal(pk)
     except Animal.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = AnimalSerializer(animal)
+
     if req.method == 'GET':
         return Response(serializer.data)
 

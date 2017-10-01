@@ -5,6 +5,7 @@ from ..models import Room
 from rest_framework import status
 from django.urls import reverse
 from ..serializers import AnimalSerializer
+from ..services import AnimalService, RoomService
 import datetime
 import json
 import pdb
@@ -14,7 +15,7 @@ class AnimalTests(TestCase):
     client = Client()
 
     def setUp(self):
-        self.test_cat = Animal.objects.create(
+        AnimalService.create_animal(
             name='Cookie',
             birth_date=datetime.date(2014, 1, 1),
             is_female=True,
@@ -111,9 +112,10 @@ class AnimalTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_animal(self):
+        cookie_pk = Animal.objects.get(name='Cookie').pk
         response = self.client.get(
-            reverse('get_animal', kwargs={'pk': self.test_cat.pk}))
-        animal = Animal.objects.get(pk=self.test_cat.pk)
+            reverse('get_animal', kwargs={'pk': cookie_pk}))
+        animal = AnimalService.get_animal(cookie_pk)
         serializer = AnimalSerializer(animal)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
