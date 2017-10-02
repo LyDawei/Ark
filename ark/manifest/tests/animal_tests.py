@@ -15,7 +15,8 @@ class AnimalTests(TestCase):
     client = Client()
 
     def setUp(self):
-        AnimalService.create_animal(
+        self.animal_service = AnimalService()
+        self.animal_service.create_animal(
             name='Cookie',
             birth_date=datetime.date(2014, 1, 1),
             is_female=True,
@@ -115,7 +116,7 @@ class AnimalTests(TestCase):
         cookie_pk = Animal.objects.get(name='Cookie').pk
         response = self.client.get(
             reverse('get_animal', kwargs={'pk': cookie_pk}))
-        animal = AnimalService.get_animal(cookie_pk)
+        animal = self.animal_service.get_animal(cookie_pk)
         serializer = AnimalSerializer(animal)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)

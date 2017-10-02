@@ -69,10 +69,25 @@ class CheckOutTests(TestCase):
             'note': 'Checked out for sleep over.'
         }
 
-    def test_check_out_service(self):
-        AnimalService.check_out(Animal.objects.get(name='Cookie').pk,
-                                RoomService.get_room(name='Adult Cat Room').pk,
-                                'At a sleep over')
+        self.animal_service = AnimalService()
+
+    def test_check_out_animal(self):
+        self.animal_service.check_out(Animal.objects.get(name='Cookie').pk,
+                                      RoomService.get_room(
+                                          name='Adult Cat Room').pk,
+                                      'At a sleep over')
+        self.assertGreater(len(CheckOut.objects.all()), 0)
+
+    def test_double_check_out_animal(self):
+        '''Cookie has been checked out. Check her out again.
+        Expected behavior is that she cannot be checked out.
+        '''
+        animal_pk = Animal.objects.get(name='Cookie').pk
+        room_pk = RoomService.get_room(name='Adult Cat Room').pk
+        note = 'At a sleep over'
+        self.assertRaisesMessage(Exception, 'Animal is already checked out.',
+                                 self.animal_service.check_out,
+                                 animal_pk, room_pk, note)
 
     def test_get_checked_out_animals(self):
         response = self.client.get(reverse('get_checked_out_animals'))
