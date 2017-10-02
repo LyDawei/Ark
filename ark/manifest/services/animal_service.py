@@ -59,11 +59,11 @@ class AnimalService:
             room=room
         )
 
-    def get_animal_from_room(pet_pk, room_id=None, room_name=None):
+    def get_animal_from_room(pet_pk, room_pk=None, room_name=None):
         '''Retrieve an animal from the room
         '''
-        if room_id is not None:
-            animal = Animal.objects.filter(animaltoroom__room=room_id).filter(
+        if room_pk is not None:
+            animal = Animal.objects.filter(animaltoroom__room=room_pk).filter(
                 animaltoroom__animal=pet_pk)
         elif room_name is not None:
             room = Room.objects.get(name=room_name)

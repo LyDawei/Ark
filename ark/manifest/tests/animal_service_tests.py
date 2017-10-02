@@ -74,7 +74,7 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
         actual = AnimalService.get_animal_from_room(
-            pet_pk=animal.pk, room_id=4)
+            pet_pk=animal.pk, room_pk=4)
         self.assertEqual(str(actual), expected)
 
         actual = AnimalService.get_animal_from_room(pet_pk=animal.pk)
