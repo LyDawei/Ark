@@ -73,14 +73,14 @@ class AnimalService:
             animal = None
         return animal[0] if animal else None
 
-    def check_out(pet_pk, room_id, note):
+    def check_out(pet_pk, room_pk, note):
         '''Check out an animal
         '''
-        animal = AnimalService.get_animal_from_room(pet_pk, room_id)
+        animal = AnimalService.get_animal_from_room(pet_pk, room_pk)
         if animal is None:
             raise Exception('Animal not in the room.')
 
-        room = Room.objects.get(pk=room_id)
+        room = Room.objects.get(pk=room_pk)
 
         CheckOut.objects.create(
             animal_id=animal,
