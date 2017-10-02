@@ -3,6 +3,8 @@ from ..models import Animal
 from ..models import Room
 from ..models import CheckOut
 from ..models import AnimalToRoom
+from ..services import AnimalService
+from ..services import RoomService
 from rest_framework import status
 from django.urls import reverse
 from ..serializers import CheckoutSerializer
@@ -56,7 +58,7 @@ class CheckOutTests(TestCase):
         # Checkout animal
         self.checked_out_animal = CheckOut.objects.create(
             animal_id=Animal.objects.get(pk=self.test_cat.pk),
-            room_id=AnimalToRoom.objects.get(pk=self.animal_to_room.pk),
+            room_id=self.adult_room,
             checked_out=True,
             time_out=datetime.datetime.now(),
             time_in=None,
@@ -66,6 +68,11 @@ class CheckOutTests(TestCase):
             'id': Animal.objects.get(name='Georgie').pk,
             'note': 'Checked out for sleep over.'
         }
+
+    def test_check_out_service(self):
+        AnimalService.check_out(Animal.objects.get(name='Cookie').pk,
+                                RoomService.get_room(name='Adult Cat Room').pk,
+                                'At a sleep over')
 
     def test_get_checked_out_animals(self):
         response = self.client.get(reverse('get_checked_out_animals'))

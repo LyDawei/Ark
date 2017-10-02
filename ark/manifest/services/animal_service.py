@@ -1,6 +1,9 @@
-from ..models import Animal
-from ..models import AnimalToRoom
-from ..models import Room
+from ..models import (Animal,
+                      AnimalToRoom,
+                      Room,
+                      CheckOut)
+from .room_service import RoomService
+import pdb
 
 
 class AnimalService:
@@ -15,17 +18,19 @@ class AnimalService:
         '''
         return Animal.objects.get(pk=id)
 
-    def get_animals_from_room(room_id):
+    def get_animals_from_room(pk):
         '''Get all animals from a room
         '''
-        animals = Animal.objects.filter(animaltoroom__room_id=room_id)
+        animals = Animal.objects.filter(animaltoroom__room_id=pk)
         return animals
 
     def create_animal(name, birth_date, is_female, joined,
                       personal_history, preferences_cats,
                       preferences_dogs, preferences_kids,
                       declawed, spay_neuter, health, pet_id):
-        ''' Creates an animal in the database. '''
+        ''' Creates an animal in the database.
+        and returns that animal
+        '''
         Animal.objects.create(
             name=name,
             birth_date=birth_date,
@@ -41,28 +46,46 @@ class AnimalService:
             pet_id=pet_id,
         )
 
-    def assign_animal_to_room(pet_id, room_name):
+        animal = Animal.objects.get(pet_id=pet_id)
+        return animal
+
+    def assign_animal_to_room(pet_pk, room_name):
         '''Assign an animal to a room
         '''
         room = Room.objects.get(name=room_name)
-        animal = Animal.objects.get(pet_id=pet_id)
+        animal = Animal.objects.get(pk=pet_pk)
         AnimalToRoom.objects.create(
             animal=animal,
             room=room
         )
-        return 200
 
-    def get_animal_from_room(pet_id, room_id=None, room_name=None):
+    def get_animal_from_room(pet_pk, room_id=None, room_name=None):
         '''Retrieve an animal from the room
         '''
-        animal = Animal.objects.get(pet_id=pet_id)
         if room_id is not None:
             animal = Animal.objects.filter(animaltoroom__room=room_id).filter(
-                animaltoroom__animal=animal.pk)
+                animaltoroom__animal=pet_pk)
         elif room_name is not None:
             room = Room.objects.get(name=room_name)
             animal = Animal.objects.filter(animaltoroom__room=room.pk).filter(
-                animaltoroom__animal=animal.pk)
+                animaltoroom__animal=pet_pk)
         else:
             animal = None
         return animal[0] if animal else None
+
+    def check_out(pet_pk, room_id, note):
+        '''Check out an animal
+        '''
+        animal = AnimalService.get_animal_from_room(pet_pk, room_id)
+        if animal is None:
+            raise Exception('Animal not in the room.')
+
+        room = Room.objects.get(pk=room_id)
+
+        CheckOut.objects.create(
+            animal_id=animal,
+            room_id=room,
+            checked_out=True,
+            time_in=None,
+            note=note
+        )

@@ -3,7 +3,8 @@ import pdb
 from django.test import TestCase
 from ..services import (RoomService,
                         AnimalService)
-from ..models import Animal
+from ..models import (Animal,
+                      AnimalToRoom)
 
 
 class AnimalServiceTest(TestCase):
@@ -54,16 +55,18 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
     def test_assign_animal_to(self):
-        actual = AnimalService.assign_animal_to_room(
-            pet_id='0416', room_name='Adult Cat Room')
-        expected = 200
-        self.assertEqual(actual, expected)
+        AnimalService.assign_animal_to_room(
+            pet_pk=Animal.objects.get(pet_id='0416').pk, room_name='Adult Cat Room')
+
+        animals_in_rooms = AnimalToRoom.objects.all()
+        self.assertGreater(len(animals_in_rooms), 0)
 
     def test_get_animal_from_room(self):
-        AnimalService.assign_animal_to_room('0416', 'Adult Cat Room')
+        animal = Animal.objects.get(pet_id='0416')
+        AnimalService.assign_animal_to_room(animal.pk, 'Adult Cat Room')
 
         actual = AnimalService.get_animal_from_room(
-            pet_id='0416', room_name='Adult Cat Room')
+            pet_pk=Animal.objects.get(pet_id='0416').pk, room_name='Adult Cat Room')
         expected = f'''
             Id: 0416
             Name: Luca
@@ -71,8 +74,10 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
         actual = AnimalService.get_animal_from_room(
-            pet_id='0416', room_id=4)
+            pet_pk=animal.pk, room_id=4)
         self.assertEqual(str(actual), expected)
 
-        actual = AnimalService.get_animal_from_room(pet_id='0416')
+        actual = AnimalService.get_animal_from_room(pet_pk=animal.pk)
         self.assertEqual(actual, None)
+
+    # TODO: Right a test to get all animals from a particular room.
