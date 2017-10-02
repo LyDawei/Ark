@@ -5,11 +5,11 @@ import pdb
 
 class RoomServiceTest(TestCase):
     def setUp(self):
-        self
+        self.room_service = RoomService()
 
     def test_create_get_room(self):
-        RoomService.create_room('test_room')
-        room = RoomService.get_room(name='test_room')
+        self.room_service.create_room('test_room')
+        room = self.room_service.get_room(name='test_room')
         self.assertTrue(room is not None)
 
-        self.assertRaises(Exception, RoomService.get_room)
+        self.assertRaises(Exception, self.room_service.get_room)

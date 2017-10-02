@@ -74,10 +74,11 @@ class CheckOutTests(TestCase):
         }
 
         self.animal_service = AnimalService()
+        self.room_service = RoomService()
 
     def test_check_out_animal(self):
         self.animal_service.check_out(Animal.objects.get(name='Georgie').pk,
-                                      RoomService.get_room(
+                                      self.room_service.get_room(
                                           name='Adult Cat Room').pk,
                                       'At a sleep over')
         self.assertGreater(len(CheckOut.objects.all()), 0)
@@ -87,7 +88,7 @@ class CheckOutTests(TestCase):
         Expected behavior is that she cannot be checked out.
         '''
         animal_pk = Animal.objects.get(name='Cookie').pk
-        room_pk = RoomService.get_room(name='Adult Cat Room').pk
+        room_pk = self.room_service.get_room(name='Adult Cat Room').pk
         note = 'At a sleep over'
         self.assertRaises(Exception, self.animal_service.check_out,
                           animal_pk, room_pk, note)
