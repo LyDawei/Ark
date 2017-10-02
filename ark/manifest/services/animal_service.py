@@ -30,9 +30,12 @@ class AnimalService:
         )
 
     def is_animal_checked_out(self, animal_pk):
-        if self.get_checked_out_animal(animal_pk) is not None:
-            return True
-        return False
+        try:
+            animal = self.get_checked_out_animal(animal_pk)
+            if animal is not None:
+                return True
+        except Exception as e:
+            return False
 
     def check_out(self, pet_pk, room_pk, note):
         '''Check out an animal
@@ -40,7 +43,7 @@ class AnimalService:
         if self.is_animal_checked_out(pet_pk):
             raise Exception('Animal is already checked out.')
 
-        animal = AnimalService.get_animal_from_room(pet_pk, room_pk)
+        animal = self.get_animal_from_room(pet_pk, room_pk)
         if animal is None:
             raise Exception('Animal not in the room.')
 

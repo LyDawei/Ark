@@ -55,6 +55,10 @@ class CheckOutTests(TestCase):
             animal=Animal.objects.get(pk=self.test_cat.pk),
             room=Room.objects.get(pk=self.adult_room.pk))
 
+        AnimalToRoom.objects.create(
+            animal=self.cat_georgie,
+            room=self.adult_room
+        )
         # Checkout animal
         self.checked_out_animal = CheckOut.objects.create(
             animal_id=Animal.objects.get(pk=self.test_cat.pk),
@@ -72,7 +76,7 @@ class CheckOutTests(TestCase):
         self.animal_service = AnimalService()
 
     def test_check_out_animal(self):
-        self.animal_service.check_out(Animal.objects.get(name='Cookie').pk,
+        self.animal_service.check_out(Animal.objects.get(name='Georgie').pk,
                                       RoomService.get_room(
                                           name='Adult Cat Room').pk,
                                       'At a sleep over')
@@ -85,9 +89,8 @@ class CheckOutTests(TestCase):
         animal_pk = Animal.objects.get(name='Cookie').pk
         room_pk = RoomService.get_room(name='Adult Cat Room').pk
         note = 'At a sleep over'
-        self.assertRaisesMessage(Exception, 'Animal is already checked out.',
-                                 self.animal_service.check_out,
-                                 animal_pk, room_pk, note)
+        self.assertRaises(Exception, self.animal_service.check_out,
+                          animal_pk, room_pk, note)
 
     def test_get_checked_out_animals(self):
         response = self.client.get(reverse('get_checked_out_animals'))
