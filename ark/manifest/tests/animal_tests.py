@@ -1,11 +1,12 @@
 from django.test import TestCase, Client
-from ..models import Animal
-from ..models import AnimalToRoom
-from ..models import Room
+from ..models import (Animal,
+                      AnimalToRoom,
+                      Room)
 from rest_framework import status
 from django.urls import reverse
 from ..serializers import AnimalSerializer
-from ..services import AnimalService, RoomService
+from ..services import (AnimalService,
+                        RoomService)
 import datetime
 import json
 import pdb
@@ -16,6 +17,7 @@ class AnimalTests(TestCase):
 
     def setUp(self):
         self.animal_service = AnimalService()
+        self.room_service = RoomService()
         self.animal_service.create_animal(
             name='Cookie',
             birth_date=datetime.date(2014, 1, 1),
@@ -31,7 +33,7 @@ class AnimalTests(TestCase):
             pet_id='4356',
         )
 
-        Animal.objects.create(
+        self.animal_service.create_animal(
             name='Georgie',
             birth_date=datetime.date(2014, 1, 1),
             is_female=False,
@@ -46,7 +48,7 @@ class AnimalTests(TestCase):
             pet_id='4356',
         )
 
-        Animal.objects.create(
+        self.animal_service.create_animal(
             name='Ben',
             birth_date=datetime.date(2014, 1, 1),
             is_female=False,
@@ -61,7 +63,7 @@ class AnimalTests(TestCase):
             pet_id='4357',
         )
 
-        Animal.objects.create(
+        self.animal_service.create_animal(
             name='Jane',
             birth_date=datetime.date(2014, 1, 1),
             is_female=False,
@@ -76,32 +78,32 @@ class AnimalTests(TestCase):
             pet_id='4357',
         )
 
-        Room.objects.create(
+        self.room_service.create_room(
             name='Adult Cat Room'
         )
 
-        Room.objects.create(
+        self.room_service.create_room(
             name='Senior Cat Room'
         )
 
-        AnimalToRoom.objects.create(
-            animal=Animal.objects.get(name='Cookie'),
-            room=Room.objects.get(name='Senior Cat Room')
+        self.animal_service.assign_animal_to_room(
+            Animal.objects.get(name='Cookie'),
+            self.room_service.get_room(name='Senior Cat Room')
+        )
+
+        self.animal_service.assign_animal_to_room(
+            Animal.objects.get(name='Georgie'),
+            self.room_service.get_room(name='Adult Cat Room')
+        )
+
+        self.animal_service.assign_animal_to_room(
+            Animal.objects.get(name='Ben'),
+            self.room_service.get_room(name='Adult Cat Room')
         )
 
         AnimalToRoom.objects.create(
-            animal=Animal.objects.get(name='Georgie'),
-            room=Room.objects.get(name='Adult Cat Room')
-        )
-
-        AnimalToRoom.objects.create(
-            animal=Animal.objects.get(name='Ben'),
-            room=Room.objects.get(name='Adult Cat Room')
-        )
-
-        AnimalToRoom.objects.create(
-            animal=Animal.objects.get(name='Jane'),
-            room=Room.objects.get(name='Adult Cat Room')
+            Animal.objects.get(name='Jane'),
+            self.room_service.get_room(name='Adult Cat Room')
         )
 
     def test_get_animals(self):

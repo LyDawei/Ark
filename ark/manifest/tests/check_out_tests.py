@@ -1,10 +1,10 @@
 from django.test import TestCase, Client
-from ..models import Animal
-from ..models import Room
-from ..models import CheckOut
-from ..models import AnimalToRoom
-from ..services import AnimalService
-from ..services import RoomService
+from ..models import (Animal,
+                      Room,
+                      CheckOut,
+                      AnimalToRoom)
+from ..services import (AnimalService,
+                        RoomService)
 from rest_framework import status
 from django.urls import reverse
 from ..serializers import CheckoutSerializer

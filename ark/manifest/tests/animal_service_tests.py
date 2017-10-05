@@ -38,7 +38,7 @@ class AnimalServiceTest(TestCase):
             spay_neuter=True,
             health='Good, FELV+',
             pet_id='0416')
-        
+
         self.room_service = RoomService()
         self.room_service.create_room('Adult Cat Room')
 
