@@ -1,11 +1,13 @@
 from ..models import Room
 from ..models import AnimalToRoom
 from ..models import Animal
+import pdb
 
 
 class RoomService:
     def create_room(self, name):
-        Room.objects.create(name=name)
+        room = Room.objects.create(name=name)
+        return room
 
     def get_room(self, room_id=None, name=None):
         if name is not None:
