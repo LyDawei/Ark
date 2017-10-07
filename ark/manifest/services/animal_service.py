@@ -18,14 +18,6 @@ class AnimalService:
             room=room
         )
 
-    def is_animal_checked_out(self, animal_pk):
-        try:
-            animal = self.get_checked_out_animal(animal_pk)
-            if animal is not None:
-                return True
-        except Exception as e:
-            return False
-
     def create_animal(self, name, birth_date, is_female, joined,
                       personal_history, preferences_cats,
                       preferences_dogs, preferences_kids,

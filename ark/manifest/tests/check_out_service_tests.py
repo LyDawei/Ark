@@ -65,11 +65,11 @@ class CheckOutServiceTest(TestCase):
 
     def test_check_out_animal_service(self):
         georgie = Animal.objects.get(name='Georgie')
-        self.check_out_service.check_out(georgie.pk,
-                                         self.room_service.get_room(
-                                             name='Adult Cat Room').pk,
-                                         'At a sleep over')
-
+        self.assertEqual(len(CheckOut.objects.all()), 0)
+        self.check_out_service.check_out_animal(georgie.pk,
+                                                self.room_service.get_room(
+                                                    name='Adult Cat Room').pk,
+                                                'At a sleep over')
         george_checked_out = CheckOut.objects.get(animal_id=georgie.pk)
         self.assertIsNotNone(george_checked_out)
 
@@ -78,7 +78,7 @@ class CheckOutServiceTest(TestCase):
         Expected behavior is that she cannot be checked out.
         '''
         self.checked_out_animal = CheckOut.objects.create(
-            animal_id=Animal.objects.get(pk=self.cookie.pk),
+            animal_id=self.cookie,
             room_id=self.adult_cat_room,
             checked_out=True,
             time_out=datetime.datetime.now(),
@@ -86,8 +86,32 @@ class CheckOutServiceTest(TestCase):
             note='Checked out for sleep over.'
         )
 
-        animal_pk = Animal.objects.get(name='Cookie').pk
-        room_pk = self.room_service.get_room(name='Adult Cat Room').pk
+        animal_pk = self.cookie.pk
+        room_pk = self.adult_cat_room.pk
         note = 'At a sleep over'
-        self.assertRaises(Exception, self.check_out_service.check_out,
+        self.assertRaises(Exception, self.check_out_service.check_out_animal,
                           animal_pk, room_pk, note)
+
+    def test_get_all_checked_out_animals_service(self):
+        self.assertEqual(
+            len(self.check_out_service.get_checked_out_animals()), 0)
+
+        self.check_out_service.check_out_animal(
+            self.cookie.pk, self.adult_cat_room.pk, 'Sleep over')
+        self.check_out_service.check_out_animal(
+            self.georgie.pk, self.adult_cat_room.pk, 'Sleep over')
+
+        self.assertGreater(
+            len(self.check_out_service.get_checked_out_animals()), 0)
+
+    def test_get_checked_out_animal_service(self):
+        self.assertEqual(
+            len(self.check_out_service.get_checked_out_animals()), 0)
+
+        self.check_out_service.check_out_animal(
+            self.cookie.pk, self.adult_cat_room.pk, 'Test')
+
+        expected = CheckOut.objects.get(animal_id=self.cookie.pk)
+        actual = self.check_out_service.get_checked_out_animal(
+            animal_pk=self.cookie.pk)
+        self.assertEqual(actual, expected)
