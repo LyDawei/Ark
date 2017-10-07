@@ -4,14 +4,15 @@ from rest_framework import status
 from ..models import CheckOut
 from ..serializers import CheckoutSerializer
 from ..services import (AnimalService,
-                        RoomService)
+                        RoomService,
+                        CheckOutService)
 import pdb
 
 
 @api_view(['GET'])
 def get_checked_out_animals(req):
-    animal_service = AnimalService()
-    all_checked_out_animals = animal_service.get_checked_out_animals()
+    check_out_service = CheckOutService()
+    all_checked_out_animals = check_out_service.get_checked_out_animals()
     serializer = CheckoutSerializer(all_checked_out_animals, many=True)
     return Response(serializer.data)
 

@@ -7,17 +7,6 @@ import pdb
 
 
 class AnimalService:
-    def get_checked_out_animal(self, animal_pk):
-        '''Retrieve a checked out animal
-        '''
-        checked_out_animal = CheckOut.objects.get(animal_id=animal_pk)
-        return checked_out_animal
-
-    def get_checked_out_animals(self):
-        '''Retrieve a list of all checked out animals
-        '''
-        checked_out_animals = CheckOut.objects.all()
-        return checked_out_animals
 
     def assign_animal_to_room(self, pet_pk, room_pk):
         '''Assign an animal to a room
@@ -27,34 +16,6 @@ class AnimalService:
         AnimalToRoom.objects.create(
             animal=animal,
             room=room
-        )
-
-    def is_animal_checked_out(self, animal_pk):
-        try:
-            animal = self.get_checked_out_animal(animal_pk)
-            if animal is not None:
-                return True
-        except Exception as e:
-            return False
-
-    def check_out(self, pet_pk, room_pk, note):
-        '''Check out an animal
-        '''
-        if self.is_animal_checked_out(pet_pk):
-            raise Exception('Animal is already checked out.')
-
-        animal = self.get_animal_from_room(pet_pk, room_pk)
-        if animal is None:
-            raise Exception('Animal not in the room.')
-
-        room = Room.objects.get(pk=room_pk)
-
-        CheckOut.objects.create(
-            animal_id=animal,
-            room_id=room,
-            checked_out=True,
-            time_in=None,
-            note=note
         )
 
     def create_animal(self, name, birth_date, is_female, joined,

@@ -4,7 +4,8 @@ from ..models import (Animal,
                       CheckOut,
                       AnimalToRoom)
 from ..services import (AnimalService,
-                        RoomService)
+                        RoomService,
+                        CheckOutService)
 from rest_framework import status
 from django.urls import reverse
 from ..serializers import CheckoutSerializer
@@ -67,35 +68,7 @@ class CheckOutTests(TestCase):
 
         self.animal_service = AnimalService()
         self.room_service = RoomService()
-
-    def test_check_out_animal_service(self):
-        georgie = Animal.objects.get(name='Georgie')
-        self.animal_service.check_out(georgie.pk,
-                                      self.room_service.get_room(
-                                          name='Adult Cat Room').pk,
-                                      'At a sleep over')
-
-        george_checked_out = CheckOut.objects.get(animal_id=georgie.pk)
-        self.assertIsNotNone(george_checked_out)
-
-    def test_double_check_out_animal_service(self):
-        '''Cookie has been checked out. Check her out again.
-        Expected behavior is that she cannot be checked out.
-        '''
-        self.checked_out_animal = CheckOut.objects.create(
-            animal_id=Animal.objects.get(pk=self.test_cat.pk),
-            room_id=self.adult_room,
-            checked_out=True,
-            time_out=datetime.datetime.now(),
-            time_in=None,
-            note='Checked out for sleep over.'
-        )
-
-        animal_pk = Animal.objects.get(name='Cookie').pk
-        room_pk = self.room_service.get_room(name='Adult Cat Room').pk
-        note = 'At a sleep over'
-        self.assertRaises(Exception, self.animal_service.check_out,
-                          animal_pk, room_pk, note)
+        self.check_out_service = CheckOutService()
 
     def test_get_checked_out_animals_api(self):
         # Checkout animal
