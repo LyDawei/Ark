@@ -4,6 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
             "name": "Python",
             "type": "python",
@@ -97,13 +98,33 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": true,
-            "pythonPath": "~/Scripts/python",
-            "program": "${workspaceRoot}/manage.py",
+            "pythonPath": "${workspaceRoot}/Scripts/python",
+            "program": "${workspaceRoot}/ark/manage.py",
             "cwd": "${workspaceRoot}",
             "args": [
                 "runserver",
                 "--noreload",
                 "--nothreading"
+            ],
+            "env": {},
+            "envFile": "${workspaceRoot}/.env",
+            "debugOptions": [
+                "WaitOnAbnormalExit",
+                "WaitOnNormalExit",
+                "RedirectOutput",
+                "DjangoDebugging"
+            ]
+        },
+        {
+            "name": "Django Unit Tests",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": true,
+            "pythonPath": "${workspaceRoot}/Scripts/python",
+            "program": "${workspaceRoot}/ark/manage.py",
+            "cwd": "${workspaceRoot}",
+            "args": [
+                "test"
             ],
             "env": {},
             "envFile": "${workspaceRoot}/.env",
