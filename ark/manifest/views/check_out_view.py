@@ -27,7 +27,10 @@ def post_check_out_animal(req):
     serializer = CheckoutSerializer(data=data)
     if serializer.is_valid:
         check_out_service = CheckOutService()
-        check_out_service.check_out_animal(
-            pet_pk=data['id'], room_pk=data['room'], note=data['note'])
-        return Response(status.HTTP_200_OK)
-    return Response(status.HTTP_400_BAD_REQUEST)
+        try:
+            check_out_service.check_out_animal(
+                pet_pk=data['id'], room_pk=data['room'], note=data['note'])
+            return Response(status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(status=status.HTTP_412_PRECONDITION_FAILED)
+    return Response(status=status.HTTP_400_BAD_REQUEST)

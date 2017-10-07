@@ -105,9 +105,22 @@ class CheckOutTests(TestCase):
 
         self.assertEqual(expected_code, response.status_code)
         self.assertEqual(expected_animals_in_check_out, len(actual_animals))
-        pdb.set_trace()
 
+    def test_post_double_check_out_animal_api(self):
+        expected_code = status.HTTP_412_PRECONDITION_FAILED
+        expected_animals_in_check_out = 1
 
-    # def test_post_double_check_out_animal_api(self):
-    #     #expecterd code: 400
+        # Check georgie out.
+        self.client.post(reverse('post_check_out_animal'),
+                         data=json.dumps(self.valid_payload),
+                         content_type='application/json')
 
+        actual_animals_in_check_out = len(CheckOut.objects.all())
+
+        response = self.client.post(reverse('post_check_out_animal'),
+                                    data=json.dumps(self.valid_payload),
+                                    content_type='application/json')
+
+        self.assertEqual(expected_code, response.status_code)
+        self.assertEqual(expected_animals_in_check_out,
+                         actual_animals_in_check_out)
