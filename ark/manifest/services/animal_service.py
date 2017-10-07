@@ -19,10 +19,10 @@ class AnimalService:
         checked_out_animals = CheckOut.objects.all()
         return checked_out_animals
 
-    def assign_animal_to_room(self, pet_pk, room_name):
+    def assign_animal_to_room(self, pet_pk, room_pk):
         '''Assign an animal to a room
         '''
-        room = Room.objects.get(name=room_name)
+        room = Room.objects.get(pk=room_pk)
         animal = Animal.objects.get(pk=pet_pk)
         AnimalToRoom.objects.create(
             animal=animal,

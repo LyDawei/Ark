@@ -60,16 +60,18 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
     def test_assign_animal_to(self):
+        room = self.room_service.get_room(name='Adult Cat Room')
         self.animal_service.assign_animal_to_room(
             pet_pk=Animal.objects.get(
-                pet_id='0416').pk, room_name='Adult Cat Room')
+                pet_id='0416').pk, room_pk=room.pk)
 
         animals_in_rooms = AnimalToRoom.objects.all()
         self.assertGreater(len(animals_in_rooms), 0)
 
     def test_get_animal_from_room(self):
         animal = Animal.objects.get(pet_id='0416')
-        self.animal_service.assign_animal_to_room(animal.pk, 'Adult Cat Room')
+        room = self.room_service.get_room(name='Adult Cat Room')
+        self.animal_service.assign_animal_to_room(animal.pk, room.pk)
 
         actual = self.animal_service.get_animal_from_room(
             pet_pk=Animal.objects.get(

@@ -30,7 +30,7 @@ class CheckOutTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id='4356',
+            pet_id='4359',
         )
 
         self.cat_georgie = Animal.objects.create(
@@ -76,14 +76,17 @@ class CheckOutTests(TestCase):
         self.animal_service = AnimalService()
         self.room_service = RoomService()
 
-    def test_check_out_animal(self):
-        self.animal_service.check_out(Animal.objects.get(name='Georgie').pk,
+    def test_check_out_animal_service(self):
+        georgie = Animal.objects.get(name='Georgie')
+        self.animal_service.check_out(georgie.pk,
                                       self.room_service.get_room(
                                           name='Adult Cat Room').pk,
                                       'At a sleep over')
-        self.assertGreater(len(CheckOut.objects.all()), 0)
 
-    def test_double_check_out_animal(self):
+        george_checked_out = CheckOut.objects.get(animal_id=georgie.pk)
+        self.assertIsNotNone(george_checked_out)
+
+    def test_double_check_out_animal_service(self):
         '''Cookie has been checked out. Check her out again.
         Expected behavior is that she cannot be checked out.
         '''
@@ -93,13 +96,12 @@ class CheckOutTests(TestCase):
         self.assertRaises(Exception, self.animal_service.check_out,
                           animal_pk, room_pk, note)
 
-    def test_get_checked_out_animals(self):
+    def test_get_checked_out_animals_api(self):
         response = self.client.get(reverse('get_checked_out_animals'))
         checked_out_animals = CheckOut.objects.all()
         serializer = CheckoutSerializer(checked_out_animals, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
-
     # def test_check_out_animal(self):
     #     response = self.client.post(
     #         reverse('post_check_out_animal'),

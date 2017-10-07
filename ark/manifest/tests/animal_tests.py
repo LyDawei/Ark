@@ -45,7 +45,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id='4356',
+            pet_id='4357',
         )
 
         self.animal_service.create_animal(
@@ -60,7 +60,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id='4357',
+            pet_id='4358',
         )
 
         self.animal_service.create_animal(
@@ -75,7 +75,7 @@ class AnimalTests(TestCase):
             declawed=False,
             spay_neuter=False,
             health='Good, FELV+',
-            pet_id='4357',
+            pet_id='4359',
         )
 
         self.room_service.create_room(
@@ -87,23 +87,22 @@ class AnimalTests(TestCase):
         )
 
         self.animal_service.assign_animal_to_room(
-            Animal.objects.get(name='Cookie'),
-            self.room_service.get_room(name='Senior Cat Room')
+            Animal.objects.get(name='Cookie').pk,
+            self.room_service.get_room(name='Senior Cat Room').pk
+        )
+        self.animal_service.assign_animal_to_room(
+            Animal.objects.get(name='Georgie').pk,
+            self.room_service.get_room(name='Adult Cat Room').pk
         )
 
         self.animal_service.assign_animal_to_room(
-            Animal.objects.get(name='Georgie'),
-            self.room_service.get_room(name='Adult Cat Room')
+            Animal.objects.get(name='Ben').pk,
+            self.room_service.get_room(name='Adult Cat Room').pk
         )
 
         self.animal_service.assign_animal_to_room(
-            Animal.objects.get(name='Ben'),
-            self.room_service.get_room(name='Adult Cat Room')
-        )
-
-        AnimalToRoom.objects.create(
-            Animal.objects.get(name='Jane'),
-            self.room_service.get_room(name='Adult Cat Room')
+            Animal.objects.get(name='Jane').pk,
+            self.room_service.get_room(name='Adult Cat Room').pk
         )
 
     def test_get_animals(self):
