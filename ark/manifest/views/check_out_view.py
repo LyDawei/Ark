@@ -28,5 +28,8 @@ def post_check_out_animal(req):
         animal_service = AnimalService()
         animal = animal_service.get_animal_from_room(
             pet_pk=data['id'], room_pk=data['room_id'])
-        
-    return Response({})
+        return Response(status.HTTP_200_OK)
+    return Response(status.HTTP_400_BAD_REQUEST)
+
+
+

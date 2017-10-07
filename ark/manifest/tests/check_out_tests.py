@@ -54,20 +54,12 @@ class CheckOutTests(TestCase):
         self.animal_to_room = AnimalToRoom.objects.create(
             animal=Animal.objects.get(pk=self.test_cat.pk),
             room=Room.objects.get(pk=self.adult_room.pk))
-
+        
         AnimalToRoom.objects.create(
             animal=self.cat_georgie,
             room=self.adult_room
         )
-        # Checkout animal
-        self.checked_out_animal = CheckOut.objects.create(
-            animal_id=Animal.objects.get(pk=self.test_cat.pk),
-            room_id=self.adult_room,
-            checked_out=True,
-            time_out=datetime.datetime.now(),
-            time_in=None,
-            note='Checked out for sleep over.'
-        )
+
         self.valid_payload = {
             'id': Animal.objects.get(name='Georgie').pk,
             'note': 'Checked out for sleep over.'
@@ -90,6 +82,15 @@ class CheckOutTests(TestCase):
         '''Cookie has been checked out. Check her out again.
         Expected behavior is that she cannot be checked out.
         '''
+        self.checked_out_animal = CheckOut.objects.create(
+            animal_id=Animal.objects.get(pk=self.test_cat.pk),
+            room_id=self.adult_room,
+            checked_out=True,
+            time_out=datetime.datetime.now(),
+            time_in=None,
+            note='Checked out for sleep over.'
+        )
+
         animal_pk = Animal.objects.get(name='Cookie').pk
         room_pk = self.room_service.get_room(name='Adult Cat Room').pk
         note = 'At a sleep over'
@@ -97,11 +98,26 @@ class CheckOutTests(TestCase):
                           animal_pk, room_pk, note)
 
     def test_get_checked_out_animals_api(self):
+        # Checkout animal
+        self.checked_out_animal = CheckOut.objects.create(
+            animal_id=Animal.objects.get(pk=self.test_cat.pk),
+            room_id=self.adult_room,
+            checked_out=True,
+            time_out=datetime.datetime.now(),
+            time_in=None,
+            note='Checked out for sleep over.'
+        )
+
         response = self.client.get(reverse('get_checked_out_animals'))
         checked_out_animals = CheckOut.objects.all()
         serializer = CheckoutSerializer(checked_out_animals, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
+        self.assertGreater(len(checked_out_animals), 0)
+
+    # def test_check_out_animal_api(self):
+    #     response = self.client.get(reverse('post_check_out_animal'))
+
     # def test_check_out_animal(self):
     #     response = self.client.post(
     #         reverse('post_check_out_animal'),
