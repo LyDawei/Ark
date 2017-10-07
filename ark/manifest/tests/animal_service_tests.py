@@ -89,4 +89,11 @@ class AnimalServiceTest(TestCase):
         actual = self.animal_service.get_animal_from_room(pet_pk=animal.pk)
         self.assertEqual(actual, None)
 
-    # TODO: Right a test to get all animals from a particular room.
+    def test_get_animals_from_room(self):
+        room = self.room_service.get_room(name='Adult Cat Room')
+        animals = Animal.objects.all()
+        for animal in animals:
+            self.animal_service.assign_animal_to_room(animal.pk, room.pk)
+
+        actual = self.animal_service.get_animals_from_room(room.pk)
+        self.assertGreater(len(actual), 0)

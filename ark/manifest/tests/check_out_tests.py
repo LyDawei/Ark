@@ -54,7 +54,7 @@ class CheckOutTests(TestCase):
         self.animal_to_room = AnimalToRoom.objects.create(
             animal=Animal.objects.get(pk=self.test_cat.pk),
             room=Room.objects.get(pk=self.adult_room.pk))
-        
+
         AnimalToRoom.objects.create(
             animal=self.cat_georgie,
             room=self.adult_room
@@ -114,16 +114,3 @@ class CheckOutTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
         self.assertGreater(len(checked_out_animals), 0)
-
-    # def test_check_out_animal_api(self):
-    #     response = self.client.get(reverse('post_check_out_animal'))
-
-    # def test_check_out_animal(self):
-    #     response = self.client.post(
-    #         reverse('post_check_out_animal'),
-    #         data=json.dumps(self.valid_payload),
-    #         content_type='application/json')
-    #     animal = Animal.objects.get(name='Georgie')
-    #     checked_out_animal = CheckOut.objects.get(animal_id=animal.pk)
-    #     self.assertEqual(checked_out_animal, animal)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
