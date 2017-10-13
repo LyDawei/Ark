@@ -11,8 +11,7 @@ class AnimalSerializer(serializers.ModelSerializer):
                   'pet_id')
 
 
-class CheckoutSerializer(serializers.ModelSerializer):
+class CheckoutSerializer(serializers.Serializer):
     class Meta:
         model = CheckOut
-        fields = ('animal_id', 'room_id', 'checked_out',
-                  'time_out', 'time_in', 'note')
+        fields = ('id', 'room', 'note')

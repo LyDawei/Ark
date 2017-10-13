@@ -19,7 +19,7 @@ class CheckOutTests(TestCase):
 
     def setUp(self):
         # Define Animal
-        self.test_cat = Animal.objects.create(
+        self.cookie = Animal.objects.create(
             name='Cookie',
             birth_date=datetime.date(2014, 1, 1),
             is_female=True,
@@ -53,7 +53,7 @@ class CheckOutTests(TestCase):
         self.adult_room = Room.objects.create(name='Adult Cat Room')
         # Set animal to the room
         self.animal_to_room = AnimalToRoom.objects.create(
-            animal=Animal.objects.get(pk=self.test_cat.pk),
+            animal=Animal.objects.get(pk=self.cookie.pk),
             room=Room.objects.get(pk=self.adult_room.pk))
 
         AnimalToRoom.objects.create(
@@ -63,6 +63,7 @@ class CheckOutTests(TestCase):
 
         self.valid_payload = {
             'id': Animal.objects.get(name='Georgie').pk,
+            'room': Room.objects.get(name='Adult Cat Room').pk,
             'note': 'Checked out for sleep over.'
         }
 
@@ -73,7 +74,7 @@ class CheckOutTests(TestCase):
     def test_get_checked_out_animals_api(self):
         # Checkout animal
         self.checked_out_animal = CheckOut.objects.create(
-            animal_id=Animal.objects.get(pk=self.test_cat.pk),
+            animal_id=Animal.objects.get(pk=self.cookie.pk),
             room_id=self.adult_room,
             checked_out=True,
             time_out=datetime.datetime.now(),
@@ -87,3 +88,39 @@ class CheckOutTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
         self.assertGreater(len(checked_out_animals), 0)
+
+    def test_post_check_out_animal_api(self):
+        # expected code: 200
+        # expected result: Animal check out object logged the animal being
+        # checkedout.
+        # expected: Animals checked out is 1
+
+        expected_code = status.HTTP_200_OK
+        expected_animals_in_check_out = 1
+
+        response = self.client.post(reverse('post_check_out_animal'),
+                                    data=json.dumps(self.valid_payload),
+                                    content_type='application/json')
+        actual_animals = CheckOut.objects.all()
+
+        self.assertEqual(expected_code, response.status_code)
+        self.assertEqual(expected_animals_in_check_out, len(actual_animals))
+
+    def test_post_double_check_out_animal_api(self):
+        expected_code = status.HTTP_412_PRECONDITION_FAILED
+        expected_animals_in_check_out = 1
+
+        # Check georgie out.
+        self.client.post(reverse('post_check_out_animal'),
+                         data=json.dumps(self.valid_payload),
+                         content_type='application/json')
+
+        actual_animals_in_check_out = len(CheckOut.objects.all())
+
+        response = self.client.post(reverse('post_check_out_animal'),
+                                    data=json.dumps(self.valid_payload),
+                                    content_type='application/json')
+
+        self.assertEqual(expected_code, response.status_code)
+        self.assertEqual(expected_animals_in_check_out,
+                         actual_animals_in_check_out)

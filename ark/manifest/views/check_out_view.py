@@ -20,17 +20,17 @@ def get_checked_out_animals(req):
 @api_view(['POST'])
 def post_check_out_animal(req):
     data = {
-        'id': req.body.data.get('id'),
-        'room_id': req.body.data.get('room_id'),
-        'note': req.body.data.get('note')
+        'id': req.data.get('id'),
+        'room': req.data.get('room'),
+        'note': req.data.get('note')
     }
     serializer = CheckoutSerializer(data=data)
     if serializer.is_valid:
-        animal_service = AnimalService()
-        animal = animal_service.get_animal_from_room(
-            pet_pk=data['id'], room_pk=data['room_id'])
-        return Response(status.HTTP_200_OK)
-    return Response(status.HTTP_400_BAD_REQUEST)
-
-
-
+        check_out_service = CheckOutService()
+        try:
+            check_out_service.check_out_animal(
+                pet_pk=data['id'], room_pk=data['room'], note=data['note'])
+            return Response(status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(status=status.HTTP_412_PRECONDITION_FAILED)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
