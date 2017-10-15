@@ -87,7 +87,7 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
         actual = self.animal_service.get_animal_from_room(pet_pk=animal.pk)
-        self.assertEqual(actual, None)
+        self.assertEqual(str(actual), expected)
 
     def test_get_animals_from_room(self):
         room = self.room_service.get_room(name='Adult Cat Room')

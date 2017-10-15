@@ -82,10 +82,12 @@ class CheckOutTests(TestCase):
             note='Checked out for sleep over.'
         )
 
+        print('test_get_checked_out_animal_api')
         response = self.client.get(reverse('get_checked_out_animals'))
-        checked_out_animals = CheckOut.objects.all()
+        checked_out_animals = CheckOut.objects.filter(checked_out=True)
         serializer = CheckoutSerializer(checked_out_animals, many=True)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         self.assertEqual(response.data, serializer.data)
         self.assertGreater(len(checked_out_animals), 0)
 
@@ -115,7 +117,8 @@ class CheckOutTests(TestCase):
                          data=json.dumps(self.valid_payload),
                          content_type='application/json')
 
-        actual_animals_in_check_out = len(CheckOut.objects.all())
+        actual_animals_in_check_out = len(
+            CheckOut.objects.filter(checked_out=True))
 
         response = self.client.post(reverse('post_check_out_animal'),
                                     data=json.dumps(self.valid_payload),

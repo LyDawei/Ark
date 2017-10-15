@@ -66,6 +66,7 @@ class CheckOutServiceTest(TestCase):
     def test_check_out_animal_service(self):
         georgie = Animal.objects.get(name='Georgie')
         self.assertEqual(len(CheckOut.objects.all()), 0)
+        print('test_check_out_animal_service')
         self.check_out_service.check_out_animal(georgie.pk,
                                                 self.room_service.get_room(
                                                     name='Adult Cat Room').pk,
@@ -115,3 +116,20 @@ class CheckOutServiceTest(TestCase):
         actual = self.check_out_service.get_checked_out_animal(
             animal_pk=self.cookie.pk)
         self.assertEqual(actual, expected)
+
+    # def test_check_in_animal_service(self):
+    #     self.assertEqual(
+    #         len(self.check_out_service.get_checked_out_animals()), 0)
+    #     pdb.set_trace()
+    #     self.check_out_service.check_out_animal(
+    #         self.cookie.pk, self.adult_cat_room.pk, 'Test')
+
+    #     self.assertEqual(
+    #         len(self.check_out_service.get_checked_out_animals()), 1)
+
+    #     self.check_out_service.check_in_animal(self.cookie.pk)
+    #     self.assertEqual(
+    #         len(self.check_out_service.get_checked_out_animals()), 0)
+
+    #     self.assertEqual(
+    #         CheckOut.objects.get(animal_id=self.cookie.pk).checked_out, False)
