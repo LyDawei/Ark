@@ -65,5 +65,6 @@ class CheckOutService:
 
         checked_out_animal = CheckOut.objects.get(animal_id=pet_pk)
         checked_out_animal.checked_out = False
+        checked_out_animal.time_in = datetime.now(timezone.utc)
         checked_out_animal.save()
         return checked_out_animal

@@ -72,6 +72,8 @@ class CheckOutTests(TestCase):
         self.check_out_service = CheckOutService()
 
     def test_get_checked_out_animals_api(self):
+        """ Test retrieving a checked out animal using the api endpoint.
+        """
         # Checkout animal
         self.checked_out_animal = CheckOut.objects.create(
             animal_id=Animal.objects.get(pk=self.cookie.pk),
@@ -82,7 +84,6 @@ class CheckOutTests(TestCase):
             note='Checked out for sleep over.'
         )
 
-        print('test_get_checked_out_animal_api')
         response = self.client.get(reverse('get_checked_out_animals'))
         checked_out_animals = CheckOut.objects.filter(checked_out=True)
         serializer = CheckoutSerializer(checked_out_animals, many=True)
@@ -97,6 +98,8 @@ class CheckOutTests(TestCase):
         # checkedout.
         # expected: Animals checked out is 1
 
+        """ Test checking out an animal using the api endpoint.
+        """
         expected_code = status.HTTP_200_OK
         expected_animals_in_check_out = 1
 
@@ -109,6 +112,8 @@ class CheckOutTests(TestCase):
         self.assertEqual(expected_animals_in_check_out, len(actual_animals))
 
     def test_post_double_check_out_animal_api(self):
+        """ Test double checking out an animal using the api endpoint.
+        """
         expected_code = status.HTTP_412_PRECONDITION_FAILED
         expected_animals_in_check_out = 1
 

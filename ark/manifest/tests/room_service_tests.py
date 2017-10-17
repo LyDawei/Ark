@@ -8,6 +8,8 @@ class RoomServiceTest(TestCase):
         self.room_service = RoomService()
 
     def test_create_get_room(self):
+        """ Test creating the room using the service layer.
+        """
         self.room_service.create_room('test_room')
         room = self.room_service.get_room(name='test_room')
         self.assertTrue(room is not None)
