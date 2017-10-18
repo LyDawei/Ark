@@ -20,6 +20,7 @@ class Animal(models.Model):
         max_length=40, default='It\'s a possibility!')
     preferences_kids = models.CharField(
         max_length=40, default='It\'s a possibility!')
+    biography = models.TextField(max_length=500, null=True)
     declawed = models.BooleanField(default=False, choices=YES_NO_CHOICES)
     spay_neuter = models.BooleanField(default=True, choices=YES_NO_CHOICES)
     health = models.CharField(max_length=40, default='Good')
