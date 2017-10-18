@@ -70,5 +70,5 @@ class AnimalService:
             animal = Animal.objects.filter(animaltoroom__room=room.pk).filter(
                 animaltoroom__animal=pet_pk)
         else:
-            animal = None
+            animal = Animal.objects.filter(animaltoroom__animal=pet_pk)
         return animal[0] if animal else None

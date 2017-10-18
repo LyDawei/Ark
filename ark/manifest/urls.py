@@ -16,5 +16,8 @@ urlpatterns = [
         name='get_animals_in_room'),
     url(r'^api/v1/post_check_out_animal$',
         views.post_check_out_animal,
-        name='post_check_out_animal')
+        name='post_check_out_animal'),
+    url(r'^api/v1/post_check_in_animal$',
+        views.post_check_in_animal,
+        name='post_check_in_animal')
 ]

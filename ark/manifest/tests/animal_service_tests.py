@@ -43,6 +43,8 @@ class AnimalServiceTest(TestCase):
         self.room_service.create_room('Adult Cat Room')
 
     def test_get_all_animals(self):
+        """ Test to retrieve ALL animals in the db.
+        """
         actual = self.animal_service.get_all_animals()
         expected = f'''
             Id: 4356
@@ -51,6 +53,8 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual[0]), expected)
 
     def test_get_animal(self):
+        """ Test to retrieve a specific animal based on pk.
+        """
         animal_pk = Animal.objects.get(name='Luca').pk
         actual = self.animal_service.get_animal(animal_pk)
         expected = f'''
@@ -60,6 +64,8 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
     def test_assign_animal_to(self):
+        """ Test to assign an animal to a specific room.
+        """
         room = self.room_service.get_room(name='Adult Cat Room')
         self.animal_service.assign_animal_to_room(
             pet_pk=Animal.objects.get(
@@ -69,6 +75,8 @@ class AnimalServiceTest(TestCase):
         self.assertGreater(len(animals_in_rooms), 0)
 
     def test_get_animal_from_room(self):
+        """ Test to retrieve an animal from a room.
+        """
         animal = Animal.objects.get(pet_id='0416')
         room = self.room_service.get_room(name='Adult Cat Room')
         self.animal_service.assign_animal_to_room(animal.pk, room.pk)
@@ -87,9 +95,11 @@ class AnimalServiceTest(TestCase):
         self.assertEqual(str(actual), expected)
 
         actual = self.animal_service.get_animal_from_room(pet_pk=animal.pk)
-        self.assertEqual(actual, None)
+        self.assertEqual(str(actual), expected)
 
     def test_get_animals_from_room(self):
+        """ Test to get all animals from a specific room.
+        """
         room = self.room_service.get_room(name='Adult Cat Room')
         animals = Animal.objects.all()
         for animal in animals:

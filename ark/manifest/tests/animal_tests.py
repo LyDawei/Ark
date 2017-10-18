@@ -106,6 +106,8 @@ class AnimalTests(TestCase):
         )
 
     def test_get_animals(self):
+        """ Test to retrieve animals from the endpoint: get_animals
+        """
         response = self.client.get(reverse('get_animals'))
 
         animals = Animal.objects.all()
@@ -114,6 +116,8 @@ class AnimalTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_get_animal(self):
+        """ Test to retrieve a specific animal from the endpoint: get_animal
+        """
         cookie_pk = Animal.objects.get(name='Cookie').pk
         response = self.client.get(
             reverse('get_animal', kwargs={'pk': cookie_pk}))
@@ -123,8 +127,7 @@ class AnimalTests(TestCase):
         self.assertEqual(response.data, serializer.data)
 
     def test_get_animal_from_room(self):
-        """
-            Test getting all animals that belong to a room
+        """ Test getting all animals that belong to a room
         """
         room_id = Room.objects.get(name='Adult Cat Room').pk
         response = self.client.get(

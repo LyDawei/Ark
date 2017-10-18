@@ -10,6 +10,8 @@ class RoomTests(TestCase):
         Room.objects.create(name='Default')
 
     def test_room_creation(self):
+        """ Test creating the room at the db layer.
+        """
         adult_cat_room = Room.objects.get(name='Adult Cat Room')
         senior_cat_room = Room.objects.get(name='Senior Cat Room')
         self.assertEqual(adult_cat_room.__str__(), 'Adult Cat Room')
