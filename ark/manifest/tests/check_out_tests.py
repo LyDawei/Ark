@@ -97,7 +97,6 @@ class CheckOutTests(TestCase):
         # expected result: Animal check out object logged the animal being
         # checkedout.
         # expected: Animals checked out is 1
-
         """ Test checking out an animal using the api endpoint.
         """
         expected_code = status.HTTP_200_OK
@@ -132,3 +131,29 @@ class CheckOutTests(TestCase):
         self.assertEqual(expected_code, response.status_code)
         self.assertEqual(expected_animals_in_check_out,
                          actual_animals_in_check_out)
+
+    def test_post_check_in_animal_api(self):
+        """ Test will check in an animal that has already been checked out.
+        """
+        expected_code = status.HTTP_200_OK
+        expected_animals_in_check_out = 0
+
+        self.client.post(reverse('post_check_out_animal'),
+                         data=json.dumps(self.valid_payload),
+                         content_type='application/json')
+
+        # 1 animal should be checked out at this point.
+        self.assertEqual(CheckOut.objects.filter(checked_out=True).count(), 1)
+
+        payload = {
+            'id': 36  # Georgie
+        }
+
+        response = self.client.post(reverse('post_check_in_animal'),
+                                    data=json.dumps(payload),
+                                    content_type='application/json')
+
+        self.assertEqual(CheckOut.objects.filter(
+            checked_out=True).count(), expected_animals_in_check_out)
+
+        self.assertEqual(expected_code, response.status_code)

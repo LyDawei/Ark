@@ -34,3 +34,13 @@ def post_check_out_animal(req):
         except Exception as e:
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def post_check_in_animal(req):
+    data = {
+        'id': req.data.get('id')
+    }
+    check_out_service = CheckOutService()
+    check_out_service.check_in_animal(data['id'])
+    return Response(status=status.HTTP_200_OK)
