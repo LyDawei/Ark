@@ -20,11 +20,11 @@ class Animal(models.Model):
         max_length=40, default='It\'s a possibility!')
     preferences_kids = models.CharField(
         max_length=40, default='It\'s a possibility!')
-    biography = models.TextField(max_length=500, null=True)
     declawed = models.BooleanField(default=False, choices=YES_NO_CHOICES)
     spay_neuter = models.BooleanField(default=True, choices=YES_NO_CHOICES)
     health = models.CharField(max_length=40, default='Good')
     pet_id = models.CharField(default="9999", max_length=4)
+    biography = models.TextField(max_length=1000, null=True)
 
     def __repr__(self):
         return f'''
@@ -34,6 +34,5 @@ class Animal(models.Model):
 
     def __str__(self):
         return f'''
-            Id: {self.pet_id}
-            Name: {self.name}
+            {self.pet_id}: {self.name}, {self.animal}
         '''

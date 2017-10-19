@@ -12,4 +12,4 @@ class AnimalToRoom(models.Model):
         room = Room.objects.get(id=self.room.pk)
         animal = Animal.objects.get(id=self.animal.pk)
 
-        return f'{room}({self.room_id}): {animal}'
+        return f'{room}: {animal}'

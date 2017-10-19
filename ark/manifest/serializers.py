@@ -5,10 +5,10 @@ from .models import Animal, CheckOut
 class AnimalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Animal
-        fields = ('name', 'animal', 'birth_date', 'is_female', 'joined',
+        fields = ('pk', 'name', 'animal', 'birth_date', 'is_female', 'joined',
                   'personal_history', 'preferences_cats', 'preferences_dogs',
                   'preferences_kids', 'declawed', 'spay_neuter', 'health',
-                  'pet_id')
+                  'pet_id', 'biography')
 
 
 class CheckoutSerializer(serializers.Serializer):
