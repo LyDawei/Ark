@@ -24,7 +24,7 @@ class Animal(models.Model):
     spay_neuter = models.BooleanField(default=True, choices=YES_NO_CHOICES)
     health = models.CharField(max_length=40, default='Good')
     pet_id = models.CharField(default="9999", max_length=4)
-    biography = models.TextField(max_length=1000, null=True)
+    biography = models.TextField(max_length=4000, null=True)
 
     def __repr__(self):
         return f'''
