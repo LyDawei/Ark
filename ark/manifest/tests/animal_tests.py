@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.test import TestCase, Client
 from ..models import (Animal,
                       AnimalToRoom,
@@ -150,3 +151,19 @@ class AnimalTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(1, len(response.data))
+
+    def test_get_animal_list(self):
+        """ Test getting list of animals from specific room.
+        """
+
+        room_id = Room.objects.get(name='Adult Cat Room').pk
+        response = self.client.get(
+            reverse('get_animals_list', kwargs={'room': room_id}))
+
+        animals_in_room = Animal.objects.filter(animaltoroom__room=room_id)
+        data = serializers.serialize(
+            'json', animals_in_room, fields=('name'))
+        pdb.set_trace()
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+        self.assertEqual(3, len(json.loads(response.data)))

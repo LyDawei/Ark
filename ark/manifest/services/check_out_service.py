@@ -46,7 +46,6 @@ class CheckOutService:
             raise Exception('Animal not in the room.')
 
         room = Room.objects.get(pk=room_pk)
-
         CheckOut.objects.create(
             animal_id=animal,
             room_id=room,
@@ -59,6 +58,7 @@ class CheckOutService:
     def check_in_animal(self, pet_pk):
         '''Return a checked out animal to their assigned room.
         '''
+
         if not self.is_animal_checked_out(pet_pk):
             # Animal is already in the room. Just return True and ignore it.
             return True

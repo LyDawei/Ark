@@ -8,6 +8,10 @@ urlpatterns = [
     url(r'^api/v1/animals$',
         views.get_animals,
         name='get_animals'),
+    url(r'^api/v1/get_animal_list_in_room/(?P<room>[0-9]+)$',
+        views.get_animals_list,
+        name='get_animals_list'
+        ),
     url(r'^api/v1/checked-out-animals$',
         views.get_checked_out_animals,
         name='get_checked_out_animals'),

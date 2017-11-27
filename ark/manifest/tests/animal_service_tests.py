@@ -47,8 +47,7 @@ class AnimalServiceTest(TestCase):
         """
         actual = self.animal_service.get_all_animals()
         expected = f'''
-            Id: 4356
-            Name: Cookie
+            4356: Cookie, Cat
         '''
         self.assertEqual(str(actual[0]), expected)
 
@@ -58,8 +57,7 @@ class AnimalServiceTest(TestCase):
         animal_pk = Animal.objects.get(name='Luca').pk
         actual = self.animal_service.get_animal(animal_pk)
         expected = f'''
-            Id: 0416
-            Name: Luca
+            0416: Luca, Cat
         '''
         self.assertEqual(str(actual), expected)
 
@@ -85,8 +83,7 @@ class AnimalServiceTest(TestCase):
             pet_pk=Animal.objects.get(
                 pet_id='0416').pk, room_name='Adult Cat Room')
         expected = f'''
-            Id: 0416
-            Name: Luca
+            0416: Luca, Cat
         '''
         self.assertEqual(str(actual), expected)
 

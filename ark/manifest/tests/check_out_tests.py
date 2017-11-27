@@ -146,7 +146,7 @@ class CheckOutTests(TestCase):
         self.assertEqual(CheckOut.objects.filter(checked_out=True).count(), 1)
 
         payload = {
-            'id': 36  # Georgie
+            'id': 40  # Georgie
         }
 
         response = self.client.post(reverse('post_check_in_animal'),
