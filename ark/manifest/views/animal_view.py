@@ -1,4 +1,6 @@
 from django.core import serializers
+from django.http import HttpResponse
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -33,7 +35,7 @@ def get_animals_list(req, room):
     animal_service = AnimalService()
     animals = animal_service.get_animals_from_room(room)
     data = serializers.serialize('json', animals, fields=('name'))
-    return Response(data)
+    return HttpResponse(data, content_type='application/json')
 
 
 @api_view(['GET'])

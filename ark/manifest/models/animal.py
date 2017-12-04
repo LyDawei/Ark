@@ -12,6 +12,7 @@ class Animal(models.Model):
     birth_date = models.DateField(auto_now=False, blank=True, null=True)
     is_female = models.BooleanField('Gender',
                                     default=True, choices=GENDER_CHOICES)
+    breed = models.CharField(max_length=10, default='DSH')
     joined = models.DateField(auto_now=False)
     personal_history = models.CharField(max_length=50, default='Stray')
     preferences_cats = models.CharField(

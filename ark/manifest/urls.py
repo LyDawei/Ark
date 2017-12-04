@@ -8,7 +8,7 @@ urlpatterns = [
     url(r'^api/v1/animals$',
         views.get_animals,
         name='get_animals'),
-    url(r'^api/v1/get_animal_list_in_room/(?P<room>[0-9]+)$',
+    url(r'^api/v1/get-animal-list-in-room/(?P<room>[0-9]+)$',
         views.get_animals_list,
         name='get_animals_list'
         ),
@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^api/v1/post-check-out-animal$',
         views.post_check_out_animal,
         name='post_check_out_animal'),
-    url(r'^api/v1/post-check_in-animal$',
+    url(r'^api/v1/post-check-in-animal$',
         views.post_check_in_animal,
         name='post_check_in_animal')
 ]
