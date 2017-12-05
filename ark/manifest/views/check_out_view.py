@@ -17,6 +17,24 @@ def get_checked_out_animals(req):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_checked_out_animal(req, id):
+    check_out_service = CheckOutService()
+    checked_out_animal = check_out_service.get_checked_out_animal(
+        animal_pk=id)
+    serializer = CheckoutSerializer(checked_out_animal)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_checked_out_animal_status(req):
+    data = {
+        'id': req.data.get('id')
+    }
+    check_out_service = CheckOutService()
+    checked_out_
+
+
 @api_view(['POST'])
 def post_check_out_animal(req):
     data = {

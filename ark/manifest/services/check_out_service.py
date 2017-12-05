@@ -17,7 +17,7 @@ class CheckOutService:
             checked_out_animal = CheckOut.objects.get(
                 animal_id=animal_pk, checked_out=True)
             return checked_out_animal
-        except Exception as e:
+        except CheckOut.DoesNotExist:
             return None
 
     def get_checked_out_animals(self):
@@ -26,7 +26,7 @@ class CheckOutService:
         try:
             checked_out_animals = CheckOut.objects.filter(checked_out=True)
             return checked_out_animals
-        except Exception as e:
+        except CheckOut.DoesNotExist:
             return []
 
     def is_animal_checked_out(self, animal_pk):
