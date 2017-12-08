@@ -163,7 +163,6 @@ class AnimalTests(TestCase):
         animals_in_room = Animal.objects.filter(animaltoroom__room=room_id)
         data = serializers.serialize(
             'json', animals_in_room, fields=('name'))
-        pdb.set_trace()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, data)
-        self.assertEqual(3, len(json.loads(response.data)))
+        self.assertEqual(response.content.decode('utf-8'), data)
+        self.assertEqual(3, len(json.loads(response.content.decode('utf-8'))))

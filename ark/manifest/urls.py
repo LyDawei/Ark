@@ -32,5 +32,5 @@ urlpatterns = [
 
     url(r'^api/v1/post-check-in-animal$',
         views.post_check_in_animal,
-        name='post_check_in_animal')
+        name='post_check_in_animal'),
 ]
