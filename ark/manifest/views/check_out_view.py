@@ -42,12 +42,14 @@ def post_check_out_animal(req):
         'room': req.data.get('room'),
         'note': req.data.get('note')
     }
+    pdb.set_trace()
     serializer = CheckoutSerializer(data=data)
+    pdb.set_trace()
     if serializer.is_valid:
         check_out_service = CheckOutService()
         try:
             check_out_service.check_out_animal(
-                pet_pk=data['id'], room_pk=data['room'], note=data['note'])
+                pet_id=data['id'], room_pk=data['room'], note=data['note'])
             return Response(status=status.HTTP_200_OK)
         except Exception as e:
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)

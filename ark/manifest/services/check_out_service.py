@@ -38,9 +38,11 @@ class CheckOutService:
     def check_out_animal(self, pet_pk, room_pk, note):
         '''Check out an animal
         '''
+        pdb.set_trace()
         if self.is_animal_checked_out(pet_pk):
             raise Exception('Animal is already checked out.')
 
+        pdb.set_trace()
         animal = self.animal_service.get_animal_from_room(pet_pk, room_pk)
         if animal is None:
             raise Exception('Animal not in the room.')
