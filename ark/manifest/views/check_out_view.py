@@ -42,9 +42,7 @@ def post_check_out_animal(req):
         'room': req.data.get('room'),
         'note': req.data.get('note')
     }
-    pdb.set_trace()
     serializer = CheckoutSerializer(data=data)
-    pdb.set_trace()
     if serializer.is_valid:
         check_out_service = CheckOutService()
         try:
