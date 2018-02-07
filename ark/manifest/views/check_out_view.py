@@ -26,13 +26,13 @@ def get_checked_out_animal(req, id):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
-def get_checked_out_animal_status(req):
-    data = {
-        'id': req.data.get('id')
-    }
-    check_out_service = CheckOutService()
-    checked_out_
+# @api_view(['GET'])
+# def get_checked_out_animal_status(req):
+#     data = {
+#         'id': req.data.get('id')
+#     }
+#     check_out_service = CheckOutService()
+#     return check_out_service.get_checked_out_animal(animal_pk=data['id'])
 
 
 @api_view(['POST'])
@@ -47,7 +47,7 @@ def post_check_out_animal(req):
         check_out_service = CheckOutService()
         try:
             check_out_service.check_out_animal(
-                pet_id=data['id'], room_pk=data['room'], note=data['note'])
+                pet_pk=data['id'], room_pk=data['room'], note=data['note'])
             return Response(status=status.HTTP_200_OK)
         except Exception as e:
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)
