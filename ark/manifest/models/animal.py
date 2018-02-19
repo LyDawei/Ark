@@ -9,6 +9,8 @@ class Animal(models.Model):
     name = models.CharField(max_length=20, default='Jane')
     animal = models.CharField(
         max_length=3, choices=ANIMAL_CHOICES, default='Cat')
+    image = models.ImageField(blank=True)
+    image_description = models.CharField(max_length=40, null=True)
     birth_date = models.DateField(auto_now=False, blank=True, null=True)
     is_female = models.BooleanField('Gender',
                                     default=True, choices=GENDER_CHOICES)
